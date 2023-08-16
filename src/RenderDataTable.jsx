@@ -66,23 +66,16 @@ const data = [
 
 function RenderDataTable() {
   const [drinks, setDrinks] = useState(data);
-  const onDecreaseCount = (id) => {
+
+  const onChangeCount = (id,type) => {
     const newData = drinks.map((drink) => {
-      if (drink.id === id && drink.stock >= 1 ) {
-        drink.stock -= 1;
+      if (drink.id === id ) {
+        if (type === "minus" && drink.stock >= 1) { drink.stock -= 1 }
+        else if(type === "add") { drink.stock += 1 }
       }
       return drink;
     });
     setDrinks(newData);
-  };
-  const onAddCount = (id) => {
-    const newAry = drinks.map((drink) => {
-      if (drink.id === id) {
-        drink.stock += 1;
-      }
-      return drink;
-    });
-    setDrinks(newAry);
   };
 
   return (
@@ -105,14 +98,18 @@ function RenderDataTable() {
               </td>
               <td>{item.price}</td>
               <td>
-                <button onClick={() => onDecreaseCount(item.id)}>-</button>
+                <button onClick={() => onChangeCount(item.id,"minus")}>-</button>
                 {item.stock}
-                <button onClick={() => onAddCount(item.id)}>+</button>
+                <button onClick={() => onChangeCount(item.id,"add")}>+</button>
+              </td>
+              <td>
+                <button>編輯</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
     </div>
   );
 }
